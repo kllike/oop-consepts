@@ -68,18 +68,37 @@ class Square extends Shape{
 }
 
 class Paint{
-    #shapes
     constructor(){
-     this.#shapes = []
+     this.shapes = []
     }
     addShape(shape){
-        this.#shapes.push(shape)
+        this.shapes.push(shape)
     }
     getShapes(){
-        return this.#shapes
+        return this.shapes
     }
-    calculateTotalArea() {
-        return this.#shapes.reduce((total, shape) => total + shape.getArea(), 0); // Sum up areas
+    calculateTotalArea(){
+        this.totalArea = 0
+        this.shapes.forEach(shape => {
+            this.totalArea += shape.getArea()
+        })
+        return this.totalArea 
+    } 
+    getCircles(){
+        this.circles = []
+        this.circles = this.shapes.filter(shape => shape.constructor.name == 'Circle')
+        return this.circles
+    }
+    
+    getSquares(){
+        this.squares = []
+        this.squares = this.shapes.filter(shape => shape instanceof 'Square')
+        return this.squares
+    }
+    getRectangles(){
+        this.rectangles = []
+        this.rectangles = this.shapes.filter(shape => shape instanceof 'Rectangle')
+        return this.rectangles
     }
 }
 
@@ -91,11 +110,15 @@ const circle1 =  new Circle('blue', 5)
 console.log(circle1.print())
 console.log('circle area', circle1.getArea())
 
+const circle =  new Circle('vilot', 8)
+console.log(circle.print())
+console.log('circle area', circle.getArea())
+
 const rectangle = new Rectangle( "green",6,4)
 console.log(rectangle.print())
 console.log("rectangle area", rectangle.getArea())
 
-const square = new Square('yellow', 7)
+const square = new Square('yellow', 10)
 console.log(square.print())
 console.log("square area", square.getArea())
 
@@ -103,6 +126,8 @@ const paint = new Paint()
 paint.addShape(circle1)
 paint.addShape(rectangle)
 paint.addShape(square)
-console.log()
-paint.getShapes().forEach(shape =>console.log(shape.print()));
+paint.addShape(circle)
+console.log(paint.getShapes())
 console.log(paint.calculateTotalArea())
+paint.getCircles().forEach(shape => console.log(shape.print()))
+
